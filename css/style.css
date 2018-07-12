@@ -1,0 +1,27 @@
+#xxx{
+	background: green;
+	display: block;
+	/*height: 100vh;*/
+}
+body{
+	margin: 0px;
+	/*border:1px solid red;*/
+}
+html{
+	/*border:1px solid black;*/
+}
+.actions{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+.actions > #brush{
+	display: none;
+}
+
+.actions.x > #brush{
+	display: inline-block;
+}
+.actions.x >#eraser{
+	display: none;
+}
