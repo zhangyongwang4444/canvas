@@ -4,8 +4,7 @@
 	/*height: 100vh;*/
 }
 body{
-	margin: 0px;
-	/*border:1px solid red;*/
+	overflow: hidden;
 }
 html{
 	/*border:1px solid black;*/
