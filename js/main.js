@@ -8,28 +8,58 @@ listenToUser(canvas);
 
 
 var eraserEnabled = false;
-
-eraser.onclick = function() {
-	eraserEnabled = true;
-	actions.className = 'actions x'
-
-}
-brush.onclick = function() {
+pen.onclick = function(){
 	eraserEnabled = false;
-	actions.className = 'actions'
+	pen.classList.add('active');
+	eraser.classList.remove('active');
 }
+eraser.onclick = function(){
+	eraserEnabled = true;
+	eraser.classList.add('active');
+	pen.classList.remove('active');
+}
+red.onclick = function(){
+	ctx.fillStyle = 'red';
+	ctx.strokeStyle = 'red';
+	red.classList.add('active');
+	green.classList.remove('active');
+	blue.classList.remove('active');
+}
+green.onclick = function(){
+	ctx.fillStyle = 'green';
+	ctx.strokeStyle = 'green';
+	red.classList.remove('active');
+	green.classList.add('active');
+	blue.classList.remove('active');
+}
+blue.onclick = function(){
+	ctx.fillStyle = 'blue';
+	ctx.strokeStyle = 'blue';
+	red.classList.remove('active');
+	green.classList.remove('active');
+	blue.classList.add('active');
+}
+// eraser.onclick = function() {
+// 	eraserEnabled = true;
+// 	actions.className = 'actions x'
+
+// }
+// brush.onclick = function() {
+// 	eraserEnabled = false;
+// 	actions.className = 'actions'
+// }
 
 function drawCircle(x, y, radius) {
 	ctx.beginPath();
 	ctx.arc(x, y, radius, 0, Math.PI * 2, false);
 	ctx.fill();
-	ctx.fillStyle = 'black';
+	// ctx.fillStyle = 'black';
 }
 
 function drawLine(x1, y1, x2, y2) {
 	ctx.beginPath();
 	ctx.lineWidth = 5;
-	ctx.strokeStyle = 'black';
+	// ctx.strokeStyle = 'black';
 	ctx.moveTo(x1, y1);
 	ctx.lineTo(x2, y2);
 	ctx.stroke();
