@@ -1,5 +1,6 @@
 var canvas = document.getElementById('xxx');
 var ctx = canvas.getContext('2d');
+var lineWidth  = 5;
 
 autoSetCanvasSize(canvas);
 
@@ -17,6 +18,19 @@ eraser.onclick = function(){
 	eraserEnabled = true;
 	eraser.classList.add('active');
 	pen.classList.remove('active');
+}
+clear.onclick = function(){
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+download.onclick = function(){
+	var url = canvas.toDataURL("image/png")
+	console.log(url);
+	var a =document.createElement('a');
+	document.body.appendChild(a);
+	a.href = url
+	a.download = '我的画板'
+	a.target = '_blank'
+	a.click()
 }
 red.onclick = function(){
 	ctx.fillStyle = 'red';
@@ -39,6 +53,12 @@ blue.onclick = function(){
 	green.classList.remove('active');
 	blue.classList.add('active');
 }
+thin.onclick = function(){
+	lineWidth = 5;
+}
+thick.onclick = function(){
+	lineWidth = 10;
+}
 // eraser.onclick = function() {
 // 	eraserEnabled = true;
 // 	actions.className = 'actions x'
@@ -58,7 +78,7 @@ function drawCircle(x, y, radius) {
 
 function drawLine(x1, y1, x2, y2) {
 	ctx.beginPath();
-	ctx.lineWidth = 5;
+	ctx.lineWidth = lineWidth;
 	// ctx.strokeStyle = 'black';
 	ctx.moveTo(x1, y1);
 	ctx.lineTo(x2, y2);
