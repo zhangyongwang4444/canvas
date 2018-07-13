@@ -3,7 +3,7 @@ var ctx = canvas.getContext('2d');
 
 autoSetCanvasSize(canvas);
 
-listenToMouse(canvas);
+listenToUser(canvas);
 
 
 
@@ -14,7 +14,7 @@ eraser.onclick = function() {
 	actions.className = 'actions x'
 
 }
-brush.onclick = function(){
+brush.onclick = function() {
 	eraserEnabled = false;
 	actions.className = 'actions'
 }
@@ -51,46 +51,96 @@ function autoSetCanvasSize(canvas) {
 	}
 }
 
-function listenToMouse() {
+function listenToUser() {
 	// var ctx = canvas.getContext('2d');
 	var using = false;
 	var lastPoint = {
 		x: undefined,
 		y: undefined
 	};
+	//特性检测
+	if (document.body.ontouchstart !== undefined) {
+		//触屏
+		canvas.ontouchstart = function(aaa) {
+			var x = aaa.touches[0].clientX;
+			var y = aaa.touches[0].clientY;
+			console.log(x, y);
+			using = true;
+			if (eraserEnabled) {
+				ctx.clearRect(x - 5, y - 5, 10, 10)
+			} else {
+				lastPoint = {
+					x: x,
+					y: y
+				}
+			}
+			console.log('开始摸我了。。。。');
+			console.log(aaa);
+		}
+		canvas.ontouchmove = function(aaa) {
+			var x = aaa.touches[0].clientX;
+			var y = aaa.touches[0].clientY;
+			if (!using) {
+				return
+			}
+			if (eraserEnabled) {
+				ctx.clearRect(x - 5, y - 5, 10, 10)
+			} else {
+				var newPoint = {
+					x: x,
+					y: y
+				};
+				// drawCircle(x, y, 1);
+				drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+				lastPoint = newPoint;
+			}
+			console.log('边摸边动。。。。');
+		}
+		canvas.ontouchend = function(aaa) {
+			// console.log('up');
+			using = false;
+			console.log('摸完了！');
+		}
+	} else {
+		//非触屏
+		canvas.onmousedown = function(aaa) {
 
-	canvas.onmousedown = function(aaa) {
-		var x = aaa.clientX;
-		var y = aaa.clientY;
-		using = true;
-		if (eraserEnabled) {
-			ctx.clearRect(x - 5, y - 5, 10, 10)
-		} else {
-			lastPoint = {
-				x: x,
-				y: y
+			// console.log('down');
+			var x = aaa.clientX;
+			var y = aaa.clientY;
+			using = true;
+			if (eraserEnabled) {
+				ctx.clearRect(x - 5, y - 5, 10, 10)
+			} else {
+				lastPoint = {
+					x: x,
+					y: y
+				}
 			}
 		}
-	}
-	canvas.onmousemove = function(aaa) {
-		var x = aaa.clientX;
-		var y = aaa.clientY;
-		if (!using) {
-			return
+		canvas.onmousemove = function(aaa) {
+			// console.log('move');
+			var x = aaa.clientX;
+			var y = aaa.clientY;
+			if (!using) {
+				return
+			}
+			if (eraserEnabled) {
+				ctx.clearRect(x - 5, y - 5, 10, 10)
+			} else {
+				var newPoint = {
+					x: x,
+					y: y
+				};
+				// drawCircle(x, y, 1);
+				drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
+				lastPoint = newPoint;
+			}
 		}
-		if (eraserEnabled) {
-			ctx.clearRect(x - 5, y - 5, 10, 10)
-		} else {
-			var newPoint = {
-				x: x,
-				y: y
-			};
-			// drawCircle(x, y, 1);
-			drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y);
-			lastPoint = newPoint;
+		canvas.onmouseup = function(aaa) {
+			// console.log('up');
+			using = false;
 		}
 	}
-	canvas.onmouseup = function(aaa) {
-		using = false;
-	}
+
 }
