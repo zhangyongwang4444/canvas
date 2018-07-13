@@ -1,3 +1,4 @@
+
 var canvas = document.getElementById('xxx');
 var ctx = canvas.getContext('2d');
 var lineWidth  = 5;
